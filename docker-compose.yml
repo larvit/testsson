@@ -1,0 +1,10 @@
+version: "3.2"
+
+services:
+  webb:
+    image: node:10
+    volumes:
+      - .:/srv
+    working_dir: /srv
+    command: node index.js
+    restart: unless-stopped
