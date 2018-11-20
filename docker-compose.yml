@@ -6,5 +6,5 @@ services:
     volumes:
       - .:/srv
     working_dir: /srv
-    command: node index.js
     restart: unless-stopped
+    command: node index.js port=80
