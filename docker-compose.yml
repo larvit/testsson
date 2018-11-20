@@ -7,4 +7,6 @@ services:
       - .:/srv
     working_dir: /srv
     restart: unless-stopped
+    ports:
+      - "${WEBB_PORT}:${WEBB_PORT}"
     command: /bin/sh -c "npm i && node index.js --port=${WEBB_PORT}"
