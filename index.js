@@ -9,8 +9,13 @@ const lUtils = new LUtils();
 const log = new lUtils.Log('verbose');
 const reqParser = new ReqParser({'log': log});
 const args = minimist(process.argv.slice(2));
-const port = args.port || 80;
+const port = args.port;
 const app = express();
+
+if (! port) {
+	console.log('Missing --port=x parameter');
+	process.exit(1);
+}
 
 app.use(function (req, res, cb) {
 	reqParser.parse(req, res, cb);
