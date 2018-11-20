@@ -26,6 +26,7 @@ app.get('/', (req, res) => res.send('Use POST yo'));
 app.post('/', function handleReq(req, res) {
 	const repo = req.urlParsed.query.repo;
 
+	let branch = 'master'; // Default to master branch
 	let ended = false;
 
 	if (! repo) {
@@ -47,12 +48,19 @@ app.post('/', function handleReq(req, res) {
 			res.send('Invalid JSON body: ' + err.message);
 			ended = true;
 		}
+
+		if (ended) return;
+
+		if (req.jsonBody.ref && req.jsonBody.req.startsWith('refs/heads/')) {
+			branch = req.jsonBody.ref.substring(11);
+		} else if (req.jsonBody.ref) {
+			branch = req.jsonBody.ref;
+		}
 	}
 
 	if (! ended) {
-		res.send('Building for ' + repo);
+		res.send('Building for ' + repo + ' branch: ' + branch);
 	}
-	console.log(req.jsonBody);
 });
 
 app.listen(port, () => log.info(`Testsson is listening on port ${port}!`));
